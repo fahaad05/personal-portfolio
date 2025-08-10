@@ -10,27 +10,34 @@ const redis = Redis.fromEnv();
 
 export const revalidate = 60;
 export default async function ProjectsPage() {
-
   if (!allProjects || allProjects.length === 0) {
     return (
-      <main className="py-12 px-4 text-center">
-        <h1 className="text-2xl font-semibold">No projects found</h1>
-      </main>
+      <div className="min-h-[100svh] bg-zinc-950 bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
+        <Navigation />
+        <div className="container mx-auto max-w-[1500px] px-4 pt-32 pb-24 min-h-[100svh] flex items-center justify-center">
+          <h1 className="py-20 text-2xl text-center font-semibold text-zinc-200">
+            No projects found
+          </h1>
+        </div>
+      </div>
     );
   }
 
-  let views: Record<string, number> = {}
-  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-    const redis = Redis.fromEnv()
+  let views: Record<string, number> = {};
+  if (
+    process.env.UPSTASH_REDIS_REST_URL &&
+    process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    const redis = Redis.fromEnv();
     try {
       const counts = await redis.mget<number[]>(
         ...allProjects.map((p) => `pageviews:projects:${p.slug}`)
-      )
+      );
       views = Object.fromEntries(
         allProjects.map((p, idx) => [p.slug, counts[idx] ?? 0])
-      )
+      );
     } catch {
-      views = {}
+      views = {};
     }
   }
 

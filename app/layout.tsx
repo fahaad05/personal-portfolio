@@ -6,8 +6,8 @@ import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
   title: {
-    default: "url.com", //TODO Insert my URL
-    template: "%s | url.com", //TODO Insert my URL
+    default: "Fahaad", 
+    template: "%s | Fahaad", 
   },
   description: "Software Engineer and Master's student in Cybersecurity",
   openGraph: {
@@ -15,10 +15,10 @@ export const metadata: Metadata = {
     description:
       "Software Engineer and Master's student in Cybersecurity",
     url: "url.com",
-    siteName: "url.com",
+    siteName: "Fahaad",
     images: [
       {
-        url: "https://url.com/og.png",
+        url: "https://url.com/og.png", // TODO change with the url
         width: 1920,
         height: 1080,
       },
