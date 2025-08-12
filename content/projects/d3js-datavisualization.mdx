@@ -1,0 +1,31 @@
+---
+title: "D3.js - Monthly Earnings — Gender & Occupation "
+description: "Interactive D3.js dashboard comparing male vs female monthly earnings by country, activity (NACE Rev.2), occupation (ISCO-08), and over time."
+date: "2019-12-01"
+url: https://github.com/fahaad05/DataVisualization-d3.js
+repository: fahaad05/DataVisualization-d3.js
+published: true
+---
+
+I built this as a university data-visualisation exercise. The app renders **three coordinated views**:
+
+- **Activities scatterplot** — compares *Males* vs *Females* for each economic activity in a selected country and year.
+- **Occupations scatterplot** — filters by a chosen activity and compares *Males* vs *Females* across occupations.
+- **Time series** — shows how a selected occupation evolves for both genders across years.
+
+**Interactions.** Pick a main country (radio list) and optionally a second one, switch year, activity and occupation. Hover any mark to reveal exact values; legends are colour-coded. Missing data is surfaced with small alerts rather than breaking the flow.
+
+**Stack.** D3.js v4, Bootstrap 4, a pinch of jQuery, plain HTML/CSS/JS (no build step).
+
+<img
+  src="/MonthlyEarnings.gif"
+  alt="D3.js dashboard showing activities & occupations scatterplots and a time-series by gender"
+  className="mx-auto w-full max-w-[1000px] rounded-xl border border-white/10"
+/>
+
+### Source & quick start
+- **Source:** [GitHub repo](https://github.com/fahaad05/DataVisualization-d3.js) 
+- **Run locally:** open `index.html` via a simple dev server:
+  ```bash
+  npx serve .
+  # or VS Code "Live Server"
