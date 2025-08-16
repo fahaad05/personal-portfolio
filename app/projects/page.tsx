@@ -59,7 +59,11 @@ export default async function ProjectsPage() {
         project.slug !== top2?.slug &&
         project.slug !== top3?.slug
     )
-    .sort(byDateDesc);
+    .sort(
+      (a, b) =>
+        new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
+        new Date(a.date ?? Number.POSITIVE_INFINITY).getTime()
+    );
 
   return (
     <div className="relative min-h-[100svh] bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0 pb-16">
@@ -76,6 +80,7 @@ export default async function ProjectsPage() {
         </div>
         <div className="w-full h-px bg-zinc-800" />
 
+        {/* Featured + top2/top3: rendili solo se esistono */}
         <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
           {featured && (
             <Card>
