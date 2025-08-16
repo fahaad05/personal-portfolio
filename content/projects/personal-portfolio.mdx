@@ -1,0 +1,53 @@
+---
+title: "Portfolio — Next.js + MDX"
+description: "Minimal, fast, and security-minded portfolio built with Next.js App Router, MDX (Contentlayer), and a black dark theme."
+date: "2025-08-1"
+repository: fahaad05/personal-portfolio
+published: true
+---
+
+The following portfolio built with a **black** dark theme, smooth interactions, and MDX-driven content.
+
+## Overview
+
+- **Home:** intro and quick links.
+- **Projects:** MDX-backed entries (Contentlayer) with cover, description, and per-project pages.
+- **Contact:** email, LinkedIn/GitHub links.
+- **Page views:** privacy-friendly counter via Upstash Redis.
+
+## Highlights
+
+- **MDX + Contentlayer:** type-safe content, fast builds.
+- **Performance-first:** App Router, minimal JS on non-interactive sections.
+- **Design:** Tailwind, sleek components, **pure black** background, subtle particles.
+- **Security-minded:** no invasive tracking.
+
+## Architecture
+
+- **Framework:** Next.js (App Router, TypeScript)
+- **Styling:** Tailwind CSS, Lucide icons
+- **Content:** MDX via Contentlayer
+- **Data:** Upstash Redis for page views
+- **Deploy:** Vercel
+
+```
+Browser
+  |
+  v
+Next.js (Vercel) —— Contentlayer (MDX)
+        |
+        v
+   Upstash Redis  → page view counters
+```
+
+## Run locally
+To run locally: 
+```bash
+# pnpm
+pnpm install
+pnpm dev
+
+# or npm
+npm install
+npm run dev
+```
