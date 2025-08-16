@@ -8,16 +8,13 @@ import { Article } from "./article";
 
 export const revalidate = 60;
 
-// crea il client Redis SOLO se le env esistono (altrimenti resta null)
 const hasRedis =
   !!process.env.UPSTASH_REDIS_REST_URL && !!process.env.UPSTASH_REDIS_REST_TOKEN;
 const redis = hasRedis ? Redis.fromEnv() : null;
 
 export default async function ProjectsPage() {
-  // considera pubblicati tutti i progetti che NON hanno published:false
   const published = allProjects.filter((p: any) => p && p.slug && p.published !== false);
 
-  // EMPTY STATE: nessun progetto
   if (published.length === 0) {
     return (
       <div className="min-h-[100svh] bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
@@ -31,7 +28,6 @@ export default async function ProjectsPage() {
     );
   }
 
-  // Pageviews (safe: se redis non c'è mettiamo 0)
   const keys = published.map((p) => ["pageviews", "projects", p.slug].join(":"));
   let views: Record<string, number> = {};
   if (redis && keys.length) {
@@ -50,13 +46,12 @@ export default async function ProjectsPage() {
   const sortedAll = [...published].sort(byDateDesc);
 
   const featured =
-    published.find((p) => p.slug === "d3js-datavisualization") ?? sortedAll[0];
+    published.find((p) => p.slug === "personal-portfolio") ?? sortedAll[0];
   const top2 =
-    published.find((p) => p.slug === "") ?? sortedAll[1];
+    published.find((p) => p.slug === "inventory-manager") ?? sortedAll[1];
   const top3 =
-    published.find((p) => p.slug === "") ?? sortedAll[2];
+    published.find((p) => p.slug === "d3js-datavisualization") ?? sortedAll[2];
 
-  // Escludi i tre sopra e ordina il resto
   const sorted = published
     .filter(
       (project) =>
@@ -64,7 +59,11 @@ export default async function ProjectsPage() {
         project.slug !== top2?.slug &&
         project.slug !== top3?.slug
     )
-    .sort(byDateDesc);
+    .sort(
+      (a, b) =>
+        new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
+        new Date(a.date ?? Number.POSITIVE_INFINITY).getTime()
+    );
 
   return (
     <div className="relative min-h-[100svh] bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0 pb-16">
@@ -81,7 +80,6 @@ export default async function ProjectsPage() {
         </div>
         <div className="w-full h-px bg-zinc-800" />
 
-        {/* Featured + top2/top3: rendili solo se esistono */}
         <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
           {featured && (
             <Card>
@@ -139,7 +137,6 @@ export default async function ProjectsPage() {
 
         <div className="hidden w-full h-px md:block bg-zinc-800" />
 
-        {/* Restanti in griglia 3-col come chronark */}
         <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
           {[0, 1, 2].map((col) => (
             <div key={col} className="grid grid-cols-1 gap-4">

@@ -1,0 +1,55 @@
+---
+title: "Inventario — Volunteer PPE Inventory Manager "
+description: "Web app to manage PPE (personal protective equipment) for a Civil Protection association (volunteers, gear, assignments & returns, and stock targets)"
+date: "2020-11-01"
+repository: fahaad05/Inventario
+published: true
+---
+
+Contributed as a volunteer project for an Italian **Civil Protection** association.  
+The goal: keep a reliable record of **who holds which PPE**, for how long, and whether stock levels meet operational needs.
+
+![Inventory demo](/InventoryManager.gif)
+
+## Overview
+
+A lightweight management tool for:
+- **Volunteers** — register/update/remove volunteers and see how many items each one holds.
+- **PPE / Equipment** — track items with **size**, **current quantity** and **target quantity** (to spot shortages/surplus).
+- **Assignments & Returns** — hand out gear to a person, set notes/dates, and record returns.
+- **History** — simple movement log to audit who took what and when.
+
+## Architecture
+
+- **Frontend**: Angular (served via **Nginx**)  
+- **Backend**: Spring Boot (REST)  
+- **Database**: MySQL  
+- **Runtime**: Docker & Docker Compose (multi-container)
+- **Proxying**: Nginx serves the SPA and proxies `/api/*` → backend
+
+## Features
+
+- **Volunteers**: create/list/update/delete; quick overview of items per person.  
+- **PPE**: per-size records with `current` vs `target` quantities to plan purchases.  
+- **Assignments/Returns**: enforce returns, avoid “lost in the field” gear.  
+- **Search & Filters**: find people/items fast during operations.  
+- **Responsive UI**: usable on laptops/tablets at the warehouse.
+
+## Tech stack
+
+- Angular + Bootstrap, Nginx 
+- Spring Boot (REST controllers, JPA/Hibernate)  
+- MySQL 
+- Docker Compose (db + backend + frontend)
+
+## How to run (dev)
+
+```bash
+docker compose up --build
+# Frontend: http://localhost:3001
+# API:      http://localhost:3001/api/
+# Backend:  http://localhost:8080 (optional direct)
+```
+
+In development, CORS is allowed for the frontend origin; CSRF is disabled for demo simplicity.
+For production, enable CSRF (e.g., XSRF-TOKEN) and restrict allowed origins.
