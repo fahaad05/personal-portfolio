@@ -1,8 +1,7 @@
-// app/profile/page.tsx
-import { allPages } from 'contentlayer/generated'
-import { notFound } from 'next/navigation'
-import { Mdx } from '../components/mdx'; // ← adegua il path se diverso
-import { Navigation } from '../components/nav'
+import { allPages } from 'contentlayer/generated';
+import { notFound } from 'next/navigation';
+import { Mdx } from '../components/mdx';
+import { Navigation } from '../components/nav';
 
 export const revalidate = 60
 
