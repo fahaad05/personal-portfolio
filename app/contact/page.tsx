@@ -1,7 +1,7 @@
 "use client";
 import { Calendar, Github, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "../components/card";
 import { Navigation } from "../components/nav";
 
@@ -16,6 +16,21 @@ type Social = {
 
 const CAL_URL = "https://cal.com/fahaad/15min";
 
+const DISPLAY_EMAIL_PARTS = ["hi", "fahaad", "dev"];
+const TARGET_EMAIL_PARTS = ["fa9777", "proton", "me"];
+
+const buildDisplayEmail = () =>
+  `${DISPLAY_EMAIL_PARTS[0]}@${DISPLAY_EMAIL_PARTS[1]}.${DISPLAY_EMAIL_PARTS[2]}`;
+
+const buildTargetEmail = () =>
+  `${TARGET_EMAIL_PARTS[0]}@${TARGET_EMAIL_PARTS[1]}.${TARGET_EMAIL_PARTS[2]}`;
+
+const buildMailto = () => {
+  const subject = encodeURIComponent("Hello Fahaad");
+  const body = encodeURIComponent("Hi Fahaad,\n");
+  return `mailto:${buildTargetEmail()}?subject=${subject}&body=${body}`;
+};
+
 const socials: Social[] = [
   {
     icon: <Linkedin size={20} />,
@@ -26,9 +41,9 @@ const socials: Social[] = [
   },
   {
     icon: <Mail size={20} />,
-    href: "mailto:fa9777@proton.me?subject=Hello%20Fahaad&body=Hi%20Fahaad%2C%0A",
+    href: "#email", // placeholder; real mailto is set client-side
     label: "Email",
-    handle: "fa9777@proton.me",
+    handle: "Email me",
     copyable: true,
   },
   {
@@ -42,11 +57,16 @@ const socials: Social[] = [
 
 export default function ContactPage() {
   const [copied, setCopied] = useState(false);
+  const [mailto, setMailto] = useState<string | null>(null);
+  useEffect(() => {
+    // Compute the mailto href only on the client to avoid exposing it in SSR HTML
+    setMailto(buildMailto());
+  }, []);
 
   const copyEmail = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    await navigator.clipboard.writeText("fa9777@proton.me");
+    await navigator.clipboard.writeText(buildTargetEmail());
     setCopied(true);
     setTimeout(() => setCopied(false), 1200);
   };
@@ -83,14 +103,10 @@ export default function ContactPage() {
 
       <div className="relative px-6 pb-24 mx-auto max-w-7xl lg:px-8">
         <div className="grid w-full grid-cols-1 gap-8 mx-auto sm:grid-cols-3 lg:gap-16">
-          {socials.map((s) => (
-            <Card key={s.label}>
-              <Link
-                href={s.href}
-                target={s.external ? "_blank" : undefined}
-                rel={s.external ? "noopener noreferrer" : undefined}
-                className="p-4 relative flex flex-col items-center gap-4 duration-700 group md:gap-8 md:py-24 lg:pb-48 md:p-16"
-              >
+          {socials.map((s) => {
+            const isEmail = s.label === "Email";
+            const content = (
+              <>
                 <span
                   className="absolute w-px h-2/3 bg-gradient-to-b from-zinc-500 via-zinc-500/50 to-transparent"
                   aria-hidden="true"
@@ -100,16 +116,21 @@ export default function ContactPage() {
                 </span>
                 <div className="z-10 flex flex-col items-center">
                   <span className="lg:text-xl font-medium duration-150 xl:text-3xl text-zinc-200 group-hover:text-white font-display">
-                    {s.handle}
+                    {isEmail ? buildDisplayEmail() : s.handle}
                   </span>
                   <span className="mt-4 text-sm text-center duration-1000 text-zinc-400 group-hover:text-zinc-200">
                     {s.label}
                   </span>
-
-                  {s.copyable && (
+                  {isEmail && s.copyable && (
                     <button
                       type="button"
-                      onClick={copyEmail}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        await navigator.clipboard.writeText(buildTargetEmail());
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 1200);
+                      }}
                       className="mt-2 inline-flex items-center justify-center rounded-md bg-white/30 px-3 py-1 text-xs text-white hover:bg-white/40 focus:outline-none focus:ring-2 focus:ring-zinc-500/40"
                       aria-label="Copy email"
                     >
@@ -117,9 +138,33 @@ export default function ContactPage() {
                     </button>
                   )}
                 </div>
-              </Link>
-            </Card>
-          ))}
+              </>
+            );
+
+            return (
+              <Card key={`${s.label}-${s.href}`}>
+                {isEmail ? (
+                  <a
+                    href={mailto ?? "#"}
+                    className="p-4 relative flex flex-col items-center gap-4 duration-700 group md:gap-8 md:py-24 lg:pb-48 md:p-16"
+                    aria-label="Email"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <Link
+                    href={s.href}
+                    target={s.external ? "_blank" : undefined}
+                    rel={s.external ? "noopener noreferrer" : undefined}
+                    className="p-4 relative flex flex-col items-center gap-4 duration-700 group md:gap-8 md:py-24 lg:pb-48 md:p-16"
+                    aria-label={s.label}
+                  >
+                    {content}
+                  </Link>
+                )}
+              </Card>
+            );
+          })}
         </div>
 
         <div className="w-full h-px bg-zinc-800 mt-16" />
