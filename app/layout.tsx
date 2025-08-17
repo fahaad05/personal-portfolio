@@ -4,21 +4,23 @@ import LocalFont from "next/font/local";
 import "../global.css";
 import { Analytics } from "./components/analytics";
 
+const SITE_URL = process.env.PUBLIC_SITE_URL || "https://url.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Fahaad", 
-    template: "%s | Fahaad", 
+    default: "Fahaad",
+    template: "%s | Fahaad",
   },
-  description: "Software Engineer and Master's student in Cybersecurity",
+  description: "Fahaad's Portoflio",
   openGraph: {
-    title: "url.com",
-    description:
-      "Software Engineer and Master's student in Cybersecurity",
-    url: "url.com",
+    title: "Fahaad",
+    description: "Fahaad's Portoflio",
+    url: SITE_URL,
     siteName: "Fahaad",
     images: [
       {
-        url: "https://url.com/og.png", // TODO change with the url
+        url: "/og.png",
         width: 1920,
         height: 1080,
       },
@@ -39,6 +41,7 @@ export const metadata: Metadata = {
   },
   icons: {
     shortcut: "/favicon.png",
+    apple: "/apple-touch-icon.png",
   },
 };
 const inter = Inter({
@@ -58,14 +61,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={[inter.variable, calSans.variable].join(" ")}>
-      <head>
-        <Analytics />
-      </head>
+      <head></head>
       <body
-        className={`bg-black ${process.env.NODE_ENV === "development" ? "debug-screens" : undefined
-          }`}
+        className={`bg-black ${
+          process.env.NODE_ENV === "development" ? "debug-screens" : undefined
+        }`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
