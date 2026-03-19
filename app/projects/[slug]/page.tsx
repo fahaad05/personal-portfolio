@@ -1,22 +1,22 @@
-import { notFound } from "next/navigation";
-import { allProjects } from "contentlayer/generated";
 import { Mdx } from "@/app/components/mdx";
+import { Redis } from "@upstash/redis";
+import { allProjects } from "contentlayer/generated";
+import { notFound } from "next/navigation";
 import { Header } from "./header";
 import "./mdx.css";
 import { ReportView } from "./view";
-import { Redis } from "@upstash/redis";
 
 export const revalidate = 60;
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 const redis = Redis.fromEnv();
 
-export async function generateStaticParams(): Promise<Props["params"][]> {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   return allProjects
     .filter((p) => p.published)
     .map((p) => ({
@@ -24,7 +24,8 @@ export async function generateStaticParams(): Promise<Props["params"][]> {
     }));
 }
 
-export default async function PostPage({ params }: Props) {
+export default async function PostPage(props: Props) {
+  const params = await props.params;
   const slug = params?.slug;
   const project = allProjects.find((project) => project.slug === slug);
 
@@ -32,8 +33,19 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
-  const views =
-    (await redis.get<number>(["pageviews", "projects", slug].join(":"))) ?? 0;
+  let views = 0;
+
+  try {
+    const res = await redis.get<number>(
+      ["pageviews", "projects", slug].join(":"),
+    );
+
+    if (typeof res === "number") {
+      views = res;
+    }
+  } catch (error) {
+    console.error("Error while fetching views count:", error);
+  }
 
   return (
     <div className="bg-zinc-50 min-h-screen">
