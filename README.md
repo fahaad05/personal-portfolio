@@ -26,13 +26,13 @@ Minimal, fast, and security‑minded portfolio built with Next.js (App Router), 
 ### Prerequisites
 
 - Node.js 20+
-- pnpm (or npm)
+- npm
 
 ### Install & Dev
 
 ```bash
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 _or_
@@ -124,12 +124,12 @@ You can deploy without Redis: views will be `0` and everything works.
 ## Scripts
 
 ```bash
-pnpm dev           # start dev server
-pnpm build         # production build
-pnpm start         # start prod server
+npm run dev        # start dev server
+npm run build      # production build
+npm run start      # start prod server
 
 # optional:
-pnpm dlx contentlayer build  # force regenerate types/content
+npx contentlayer2 build      # force regenerate types/content
 ```
 
 ## CI (GitHub Actions)

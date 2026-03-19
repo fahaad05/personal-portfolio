@@ -1,0 +1,53 @@
+---
+title: "Time Calculator"
+description: "Web tool to perform time calculations (addition, subtraction, and differences)"
+date: "2026-03-19"
+repository: fahaad05/time-calculator
+url: https://time-calculator.fahaad.dev/
+published: true
+---
+
+A lightweight web tool to perform common **time calculations** directly in the browser.  
+Built as part of my personal portfolio to practice clean UI design and simple state-driven logic.
+
+## Overview
+
+A minimal utility for:
+- **Time arithmetic** — add or subtract hours and minutes from a given time.
+- **Time difference** — calculate the duration between two times, including overnight scenarios.
+- **Duration calculations** — operate on two durations (e.g. 2h 30m + 1h 45m).
+
+The goal was to build a simple but practical tool, focusing on usability and correctness rather than complexity.
+
+## Features
+
+- **Add / Subtract Time**  
+  Input a base time and apply additions or subtractions in hours and minutes.
+
+- **Time Difference**  
+  Calculate the difference between two times, including cases that span across midnight.
+
+- **Duration Calculator**  
+  Perform arithmetic operations between two durations expressed in hours and minutes.
+
+- **24-hour format handling**  
+  All calculations are normalized to a 24-hour format with proper wrapping.
+
+- **Responsive UI**  
+  Clean and minimal interface, usable on both desktop and mobile devices.
+
+## Architecture
+
+- Frontend only application
+- All logic handled client-side using React state
+- No backend or database required
+
+## Tech stack
+
+- Next.js (App Router)
+- React (useState)
+- Tailwind CSS
+
+## Notes
+
+This project was built as a small utility tool to reinforce frontend fundamentals and create a practical, deployable component for my portfolio.

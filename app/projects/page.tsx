@@ -39,7 +39,7 @@ export default async function ProjectsPage() {
   const top2 =
     published.find((p: any) => p.slug === "inventory-manager") ?? sortedAll[1];
   const top3 =
-    published.find((p: any) => p.slug === "d3js-datavisualization") ??
+    published.find((p: any) => p.slug === "time-calculator") ??
     sortedAll[2];
 
   const sorted = published
