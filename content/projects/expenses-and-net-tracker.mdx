@@ -1,0 +1,66 @@
+---
+title: "Expenses and Net Tracker"
+description: "Personal finance dashboard for monthly reviews, net-worth tracking, imports, and shared-account management"
+date: "2026-04-28"
+repository: fahaad05/expenses-and-net-tracker
+url: https://expenses-net-tracker.fahaad.dev/
+published: true
+---
+
+A local-first personal finance app to manage **monthly expense reviews**, **quarterly net-worth check-ins**, and a **shared-account ledger** in one place.  
+Built with Next.js and SQLite, with a workflow designed around real monthly and yearly review habits rather than generic budgeting screens.
+
+## Overview
+
+This project combines several finance workflows into a single dashboard:
+- **Monthly reviews** — track income, expenses, fixed costs, investments, travel, extra spending, and one-off costs.
+- **Quarterly net reviews** — record balance-sheet snapshots including cash, emergency fund, investments, crypto, debts, and net worth.
+- **Cashew import workflow** — import transaction exports, inspect category totals, include or exclude rows, and prepare numbers for a monthly review.
+- **Shared-account tracking** — log and reconcile expenses from a common account, including ownership splits and one-time CSV import from legacy data.
+
+The goal was to build something practical for recurring personal finance reviews, with enough structure to support reflection and trend analysis without becoming overly complex.
+
+## Features
+
+- **Monthly review archive**  
+  Save recurring monthly reviews with notes, wins, challenges, and next actions.
+
+- **Quarterly net-worth tracking**  
+  Record asset and debt snapshots, then review how net worth evolves over time.
+
+- **Cashew CSV import**  
+  Import exported transactions, review category totals, apply include/exclude decisions, and prepare review buckets manually.
+
+- **Shared-account ledger**  
+  Track expenses tagged as personal, partner, or shared, with filtering, grouping, editing, deletion, charts, and CSV export.
+
+- **Fixed expenses and investments**  
+  Keep recurring cost entries and investment snapshots directly inside the same app.
+
+- **Insights and trends**  
+  Surface lightweight review insights and show chart-based trends for monthly margin, net worth, and shared spending.
+
+- **Local-first storage**  
+  Uses SQLite so the app can be run privately on a local machine, while still being easy to demo with seeded data.
+
+## Architecture
+
+- Next.js App Router application
+- SQLite persistence through `better-sqlite3`
+- Server actions for data mutations
+- Client components for interactive review builders, calculators, filters, and grouped ledger views
+- JSON-based translation resources for future multilingual support
+
+## Tech stack
+
+- Next.js (App Router)
+- React
+- TypeScript
+- SQLite (`better-sqlite3`)
+- Recharts
+- Zod
+
+## Notes
+
+This project was built around real review workflows rather than generic budgeting templates.  
+One of the most important design choices was separating the **public demo version** from the **private personal instance**, so the app can be shown online with seeded data while real financial data stays local in a separate SQLite database.
